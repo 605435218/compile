@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${ENV, var="JOB_NAME"}-第${BUILD_NUMBER}次构建日志</title>
+        </head>
+        <body leftmargin="8" marginwidth="0" topmargin="8" marginheight="4" offset="0">
+            <table width="95%" cellpadding="0" cellspacing="0"  style="font-size: 11pt; font-family: Tahoma, Arial, Helvetica, sans-serif">
+                <tr>
+                    <td>各位同事，大家好，以下为{{project_name}}项目构建信息</td>
+                </tr>
+                <tr>
+                    <td><br />
+                    <b><font color="#0B610B">构建信息</font></b>
+                    <hr size="2" width="100%" align="center" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul>
+                            <li>项目名称 ： {{project_name}}</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul>
+                            <li>使用命令：docker login -u docker -p docker 10.190.49.56:10001登录私服获取镜像</li>
+                            <li>登录时出错请检查daemon.json文件的配置</li>
+                            <li>使用命令：vim /etc/docker/daemon.json 编辑配置文件</li>
+                            <li>在"insecure-registries"字段加入"10.190.49.56:10001"，如下:</li>
+                            <li>{</li>
+                            <li>"registry-mirrors": ["https://registry.docker-cn.com"],</li>
+                            <li>"insecure-registries":["nexus3.onap.org:10001","nexus3.onap.org","10.190.49.56:10001"]</li>
+                            <li>}</li>
+                            <li>修改完成后重启docker服务使配置生效</li>
+                            <li>service docker restart</li>
+                            {% for info in images_info%}
+                            <br/>
+                            <li>镜像{{info.0}}已经打包完成</li>
+                            <li>使用命令:docker pull {{info.0}} 拉取镜像</li>
+                            <li>使用命令:{{info.1}} 启动容器</li>
+                             <br/>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </body>
+</html>
