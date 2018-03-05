@@ -8,11 +8,13 @@ if [ ! -d $project_name ]
   fi
 docker cp jenkis:/var/jenkins_home/workspace/$project_name ./
 
+path=$(pwd)
 #java工程需要编译,python工程可注释这一段
-cd $project_name
+#根据实际情况进入到工程pom文件所在目录
+cd $project_name/....
 mvn clean install
-cd ..
 
+#返回build_docker.sh所在目录
+cd $path/docker_dir
 #打包推送镜像
-cd docker_dir
 ./build_docker.sh
