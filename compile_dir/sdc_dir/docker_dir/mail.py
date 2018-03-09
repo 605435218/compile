@@ -45,6 +45,7 @@ class send_mail:
         except Exception as e:
             print e
             print("邮件发送失败！")
+            sys.exit(1)
         else:
             print("邮件发送成功！")
         finally:
